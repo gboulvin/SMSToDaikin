@@ -1,5 +1,6 @@
 # SMSToDaikin
-Control your Daikin system trough SMS
+*Control your Daikin system trough SMS*
+
 Controlez votre système Daikin par SMS
 
 Le système a été conçu pour controler une pompe à chaleur chaud/froid de marque Daikin.
