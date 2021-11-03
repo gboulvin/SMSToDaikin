@@ -1,31 +1,22 @@
-/* Allumer une LED par SMS
-Pour allumer la LED envoyer led on
-pour éteindre la LED envoyer led off
-*/
-
-/* 1) Zone 1 : les déclarations */
-// 1.a) Les bibliothèques et création d'objets
+//Déclaration des bibliothèques
+//Il faut avoir installé les bibliothèques GSM (SIM800L), DHT sensor library et Arduino_DY_IRDaikin (https://github.com/danny-source/Arduino_DY_IRDaikin)
 
 #include <SoftwareSerial.h>
 #include <DHT.h>
-#define DHTPIN 4
-#define DHTTYPE DHT22      // DHT 22
+#define DHTPIN 4 //Pin du capteur DHT
+#define DHTTYPE DHT22      // DHT 22 ou DHT11
 DHT dht(DHTPIN, DHTTYPE);  // Création de l'objet dht
 #include <DYIRDaikin.h>
-int Txd = 6, Rxd = 7; // SIM800
-SoftwareSerial gsm(Txd, Rxd); // RX, TX : il faut relier Rx de l'Arduino au Tx du SIM800
+int Txd = 6, Rxd = 7; // Pins du SIM800L
+SoftwareSerial gsm(Txd, Rxd); // Attention : RX, TX : il faut relier Rx de l'Arduino au Tx du SIM800L
 
-#define DYIRDAIKIN_SOFT_IR
+#define DYIRDAIKIN_SOFT_IR //Pin de la LED infrarouge
 DYIRDaikin irdaikin;
-//int isOn=0;
-
-
-// 1.c) Les variables globales
 int led=3;
+
 String reponse, numeroSMS, SMS;
 unsigned long t0;
 
-/* 2) Zone 2 : Initialisation (le setup) */
 void setup() {
   pinMode(led,OUTPUT);
   Serial.begin(9600);
@@ -35,10 +26,10 @@ void setup() {
   Serial.println("Initialisation...");
   gsm.println("AT");
   while (!message("OK",1000,0)) gsm.println("AT");
-  gsm.println("AT+CNUM");            // Affiche n° de la carte SIM utilisée
+  gsm.println("AT+CNUM");            // Affiche n° de la carte SIM utilisée !! Non fonctinnel !!
   message("OK",20000,1);
   Serial.print ("Qualite reseau : ");
-  gsm.println("AT+CSQ");            // Qualité du réseau, pb si CSQ = 0
+  gsm.println("AT+CSQ");            // Qualité du réseau, pb si CSQ = 0, le plus est le mieux
   message("OK",10000,1);
   gsm.println("AT+CMGF=1");         // Mode Texte
   message("OK",1000,0);
@@ -51,6 +42,8 @@ void setup() {
   irdaikin.begin();
   #endif
   }
+
+//Définition des "programmes" du Daikin (Chauffage, Confort, Airco, AllOff)
 
 void Chauffage(){
   irdaikin.on();
@@ -69,14 +62,12 @@ void Airco(){
   irdaikin.setFan(5);//FAN speed to MAX
   irdaikin.setTemp(20);
   //----everything is ok to execute send command-----
-  
-  irdaikin.sendCommand();
+    irdaikin.sendCommand();
   
 }
 
 void AllOff(){
   irdaikin.off();
-   
   //----everything is ok to execute send command-----
   irdaikin.sendCommand();
   
@@ -86,18 +77,18 @@ void Confort(){
   irdaikin.on();
   irdaikin.setSwing_off();
   irdaikin.setMode(3);
-  irdaikin.setFan(4);//FAN speed to presque MAX
+  irdaikin.setFan(1);//FAN speed
   irdaikin.setTemp(24);
   //----everything is ok to execute send command-----
   irdaikin.sendCommand();
 }
 
-/* 3) Zone 3 : le Programme Principal */
+
 void loop() {
   if (message("+CMTI:",20000,0)) LireSMS();   // Si nouveau SMS disponible SIM800 envoie +CMTI:
 }
 
-/* 4) Zone 4 : les sous programmes (ou fonctions) */
+//Autre fonction :lecture SMS
 
 void LireSMS(){
   gsm.println("AT+CMGF=1");  // Mode Texte
@@ -109,7 +100,7 @@ void LireSMS(){
   numeroSMS = reponse.substring(test,test+12);
   Serial.println("SMS recu depuis : " + numeroSMS);
   
- // Analyse du message reçu 
+ // Analyse du message reçu :
   
   if (reponse.indexOf("Chauffage")>0) {
      SMS = "Ordre recu : Allumer le chauffage a 18 degres !";
