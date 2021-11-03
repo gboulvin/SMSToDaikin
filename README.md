@@ -14,10 +14,10 @@ Le principe est simple :
 Vous envoyez un SMS au module, celui-ci le lit et exécute la commande liée.
 
 Quatre commandes liées au chauffage sont prévues. Envoyez (sans les guillemets) :
-"Chauffage" : Active le mode de chauffe avec un objectif de 18°C, swing ON, ventilateur au maximum (utilisé pour préchauffer la seconde résidence) ;
-"Confort" : Active le mode de chauffe avec un objectif de 24°C, swing OFF et ventilateur lent pour diminuer les nuisances sonores ;
-"Airco" : Active le mode de ventilation seul, swing ON et ventilateur moyen ;
-"Off" : Eteint le système.
+* "Chauffage" : Active le mode de chauffe avec un objectif de 18°C, swing ON, ventilateur au maximum (utilisé pour préchauffer la seconde résidence) ;
+* "Confort" : Active le mode de chauffe avec un objectif de 24°C, swing OFF et ventilateur lent pour diminuer les nuisances sonores ;
+* "Airco" : Active le mode de ventilation seul, swing ON et ventilateur moyen ;
+* "Off" : Eteint le système.
 
 Et une commande ("Temp") permet de connaître la température et l'humidité de la pièce.
 
