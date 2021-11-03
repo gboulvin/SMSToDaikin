@@ -1,7 +1,7 @@
 # SMSToDaikin
-*Control your Daikin system trough SMS*
+*Control your Daikin system trough SMS !*
 
-Controlez votre système Daikin par SMS
+*Controlez votre système Daikin par SMS !*
 
 Le système a été conçu pour controler une pompe à chaleur chaud/froid de marque Daikin.
 Il utilise la librairie de danny_source : https://github.com/danny-source/Arduino_DY_IRDaikin qui est compatible avec une grande partie des modèles.
